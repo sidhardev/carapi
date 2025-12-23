@@ -1,0 +1,15 @@
+POST http://localhost:3000/auth/signup
+Content-Type: application/json
+
+{
+    "email": "a@a.cs",
+    "password": "mypassword"
+}
+
+### Find user by email
+GET http://localhost:3000/auth/?email=a@a.cs
+
+### Delete user by id
+DELETE http://localhost:3000/auth/3 
+
+
