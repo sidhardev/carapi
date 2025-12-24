@@ -1,6 +1,6 @@
 import {Entity,AfterRemove, AfterInsert, AfterUpdate,PrimaryGeneratedColumn, Column} from 'typeorm';
 
-@Entity()
+@Entity('User')
 export class User {
     @PrimaryGeneratedColumn()
     id: number;

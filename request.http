@@ -13,3 +13,14 @@ GET http://localhost:3000/auth/?email=a@a.cs
 DELETE http://localhost:3000/auth/3 
 
 
+### Update user by id
+
+PATCH http://localhost:3000/auth/1
+Content-Type: application/json
+
+{
+    "email": "a@asddds.cs",
+    "password": "mypasssword"
+}
+
+
