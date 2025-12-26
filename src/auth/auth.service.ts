@@ -56,7 +56,6 @@ export class AuthService {
     const [salt, storedHash] = user.password.split('.');
     const hash = (await scrypt(password, salt, 32)) as Buffer;
     if (storedHash === hash.toString('hex')) {
-
       return {
         status: true,
         message: 'Signin successful',
@@ -68,9 +67,6 @@ export class AuthService {
     } else {
       throw new BadRequestException('Invalid password');
     }
-    
-
-
   }
 
   findOne(id: number) {
@@ -92,9 +88,6 @@ export class AuthService {
     return this.repo.save(user);
   }
 
-
-
-  
   async remove(id: number) {
     const user = await this.findOne(id);
 
@@ -103,5 +96,8 @@ export class AuthService {
     }
 
     return this.repo.remove(user);
+  }
+  findAllUsers() {
+    return this.repo.find();
   }
 }
