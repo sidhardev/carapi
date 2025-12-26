@@ -1,9 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn  } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity() 
+@Entity()
 export class Reports {
-    @PrimaryGeneratedColumn()
-    id: number;
-    @Column()
-    price: number
+  @PrimaryGeneratedColumn()
+  id: number;
+  @Column()
+  price: number;
 }
