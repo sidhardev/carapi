@@ -78,11 +78,18 @@ export class AuthService {
   }
 
   async update(id: number, attrs: Partial<User>) {
-    const user = await this.findOne(id);
-
+    const user = await this.findOne(id) || null;
     if (!user) {
       throw new NotFoundException('User not found');
     }
+    if(attrs.password) {
+    
+    const salt = randomBytes(8).toString('hex');
+    const hash = (await scrypt(attrs.password, salt, 32)) as Buffer;
+    const hashedPassword = salt + '.' + hash.toString('hex');
+      attrs.password = hashedPassword;
+    }
+    
 
     Object.assign(user, attrs);
     return this.repo.save(user);

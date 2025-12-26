@@ -8,14 +8,16 @@ import {
   Patch,
   Delete,
   Session,
-} from '@nestjs/common';
+  UseGuards,
+ } from '@nestjs/common';
 import { CreateUserDto } from 'src/auth/dto/create-user.dto';
 import { UpdateUserDto } from 'src/auth/dto/update-user.dto';
 import { AuthService } from '../auth/auth.service';
 import { ApiOkResponse, ApiProperty } from '@nestjs/swagger';
 import { CurrentUser } from 'src/users/decorators/current-user.decorator';
-@Controller('auth')
-export class UsersController {
+import { AuthGuard } from 'src/guards/auth.guard';
+ @Controller('auth')
+ export class UsersController {
   constructor(private authService: AuthService) {}
   @Post('/signup')
   async createUser(@Body() body: CreateUserDto) {
@@ -24,9 +26,19 @@ export class UsersController {
   }
   @Post('/signin')
   async signinUser(@Body() body: CreateUserDto, @Session() session: any) {
+
+    if(session.userId) {
+      return {
+        status: false,
+        message: 'Please signout first before signing in again',
+      };
+    }
+    else {
+
     const user = await this.authService.signin(body.email, body.password);
     session.userId = user.user.id;
     return user;
+    }
   }
  @Post('/signout')
   signout(@Session() session: any) {
@@ -43,16 +55,11 @@ export class UsersController {
   }
 
   @Post('/allUsers')
+  @UseGuards(AuthGuard)
   getAllUsers() {
     return this.authService.findAllUsers();
   }
 
-  @Get('userbyid')
-  getUserId(@Session() session: any) {
-    return {
-      userId: session.userId,
-    };
-  }
 
   @Get('/:id')
   findUser(@Param('id') id: string) {
@@ -69,6 +76,7 @@ export class UsersController {
     return this.authService.remove(parseInt(id));
   }
   @Patch('/:id')
+  @UseGuards(AuthGuard)
   updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
     return this.authService.update(parseInt(id), body);
   }
