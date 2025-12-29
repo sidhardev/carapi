@@ -16,7 +16,7 @@ import { AuthService } from '../auth/auth.service';
 import { ApiOkResponse, ApiProperty } from '@nestjs/swagger';
 import { CurrentUser } from 'src/users/decorators/current-user.decorator';
 import { AuthGuard } from 'src/guards/auth.guard';
- @Controller('auth')
+ @Controller('user')
  export class UsersController {
   constructor(private authService: AuthService) {}
   @Post('/signup')
@@ -72,7 +72,8 @@ import { AuthGuard } from 'src/guards/auth.guard';
   }
 
   @Delete('/:id')
-  removeUser(@Param('id') id: string) {
+  removeUser(@Param('id') id: string, @Session() session: any){
+        session.userId = null;
     return this.authService.remove(parseInt(id));
   }
   @Patch('/:id')
