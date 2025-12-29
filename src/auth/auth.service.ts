@@ -102,7 +102,7 @@ export class AuthService {
       throw new NotFoundException('User not found');
     }
 
-    return this.repo.remove(user);
+    return await this.repo.softDelete(user.id);
   }
   findAllUsers() {
     return this.repo.find();
