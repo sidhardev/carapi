@@ -14,17 +14,17 @@ async function bootstrap() {
     }),
   );
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
- const config = new DocumentBuilder()
-  .setTitle('My Car API')
-  .setVersion('1.0')
-  .addTag('cars')
-  
-   .build();
+  const config = new DocumentBuilder()
+    .setTitle('My Car API')
+    .setVersion('1.0')
+    .addTag('cars')
+
+    .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true}));
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

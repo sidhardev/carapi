@@ -1,11 +1,18 @@
-import { IsString, IsNumber, Min, Max, IsLongitude, IsLatitude} from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
-import { User } from "src/users/user.entity";
+import {
+  IsString,
+  IsNumber,
+  Min,
+  Max,
+  IsLongitude,
+  IsLatitude,
+} from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { User } from 'src/users/user.entity';
 import { Type } from 'class-transformer';
 export class CreateReportDto {
-    id: number;
-    @Type(() => User)
-    user: User;
+  id: number;
+  @Type(() => User)
+  user: User;
   @ApiProperty({
     example: 'Toyota',
     description: 'The make of the car',
@@ -49,15 +56,13 @@ export class CreateReportDto {
     example: 34.0,
     description: 'The latitude of the car location',
   })
-@IsLatitude()
-
-lat: number;
+  @IsLatitude()
+  lat: number;
 
   @ApiProperty({
     example: -118.0,
     description: 'The longitude of the car location',
   })
-@IsLongitude()
+  @IsLongitude()
   lng: number;
-
 }

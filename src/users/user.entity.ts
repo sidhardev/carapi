@@ -7,7 +7,7 @@ import {
   Column,
   Exclusion,
   DeleteDateColumn,
-  OneToMany
+  OneToMany,
 } from 'typeorm';
 import { Reports } from 'src/reports/reports.entity';
 import { Exclude } from 'class-transformer';
@@ -22,12 +22,14 @@ export class User {
   @Column()
   @Exclude()
   password: string;
-  @DeleteDateColumn()
-deletedAt: Date;
 
-@OneToMany(() => Reports, (report) => report.user)
-@Exclude()
-reports: Reports[];
+  @DeleteDateColumn()
+  @Exclude()
+  deletedAt: Date;
+
+  @OneToMany(() => Reports, (report) => report.user)
+  @Exclude()
+  reports: Reports[];
   @AfterInsert()
   logInsert() {
     console.log('Inserted User with id', this.id);
