@@ -5,6 +5,7 @@ import {
   UseGuards,
   Get,
   Param,
+  Patch,
   ParseIntPipe,
 } from '@nestjs/common';
 import { CreateReportDto } from './dtos/create-reports.dto';
@@ -32,4 +33,14 @@ export class ReportsController {
     console.log(id);
     return this.reportsService.getReportsByUserId(id);
   }
+
+  @Patch('/:id')
+  updateReport(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: Partial<Reports>,
+  ) {
+    return this.reportsService.updateReports(id, body);
+  }
+
+
 }
