@@ -9,15 +9,15 @@ import {
   Delete,
   Session,
   UseGuards,
- } from '@nestjs/common';
+} from '@nestjs/common';
 import { CreateUserDto } from 'src/auth/dto/create-user.dto';
 import { UpdateUserDto } from 'src/auth/dto/update-user.dto';
 import { AuthService } from '../auth/auth.service';
 import { ApiOkResponse, ApiProperty } from '@nestjs/swagger';
 import { CurrentUser } from 'src/users/decorators/current-user.decorator';
 import { AuthGuard } from 'src/guards/auth.guard';
- @Controller('user')
- export class UsersController {
+@Controller('user')
+export class UsersController {
   constructor(private authService: AuthService) {}
   @Post('/signup')
   async createUser(@Body() body: CreateUserDto) {
@@ -26,21 +26,18 @@ import { AuthGuard } from 'src/guards/auth.guard';
   }
   @Post('/signin')
   async signinUser(@Body() body: CreateUserDto, @Session() session: any) {
-
-    if(session.userId) {
+    if (session.userId) {
       return {
         status: false,
         message: 'Please signout first before signing in again',
       };
-    }
-    else {
-
-    const user = await this.authService.signin(body.email, body.password);
-    session.userId = user.user.id;
-    return user;
+    } else {
+      const user = await this.authService.signin(body.email, body.password);
+      session.userId = user.user.id;
+      return user;
     }
   }
- @Post('/signout')
+  @Post('/signout')
   signout(@Session() session: any) {
     session.userId = null;
     return {
@@ -60,7 +57,6 @@ import { AuthGuard } from 'src/guards/auth.guard';
     return this.authService.findAllUsers();
   }
 
-
   @Get('/:id')
   findUser(@Param('id') id: string) {
     return this.authService.findOne(parseInt(id));
@@ -72,8 +68,8 @@ import { AuthGuard } from 'src/guards/auth.guard';
   }
 
   @Delete('/:id')
-  removeUser(@Param('id') id: string, @Session() session: any){
-        session.userId = null;
+  removeUser(@Param('id') id: string, @Session() session: any) {
+    session.userId = null;
     return this.authService.remove(parseInt(id));
   }
   @Patch('/:id')
